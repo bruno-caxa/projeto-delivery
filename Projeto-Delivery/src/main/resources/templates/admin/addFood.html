@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/I999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  										   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<meta charset="UTF-8">
+<div th:include="includes/head.html"></div>
+
+<body>
+
+	<!-- Pre-loader start -->
+	<div th:include="includes/theme-loader.html"></div>
+
+	<!-- Pre-loader end -->
+	<div id="pcoded" class="pcoded">
+		<div class="pcoded-overlay-box"></div>
+		<div class="pcoded-container navbar-wrapper">
+
+			<div th:include="includes/navbar.html"></div>
+
+			<div class="pcoded-main-container">
+				<div class="pcoded-wrapper">
+
+					<div th:include="includes/navbarmainmenu.html"></div>
+
+					<div class="pcoded-content">
+						<!-- Page-header start -->
+						<div th:include="includes/pageheader.html"></div>
+						<!-- Page-header end -->
+						<div class="pcoded-inner-content">
+							<!-- Main-body start -->
+							<div class="main-body">
+								<div class="page-wrapper">
+									<!-- Page-body start -->
+									<div class="page-body">
+										<h4>Cadastro de Alimento</h4>
+										<div class="row">
+											<div class="col-sm-12">
+												<!-- Basic Form Inputs card start -->
+												<div class="card">
+													<div class="card-block">
+														<h4 class="sub-title">Insira as informações necessárias</h4>
+														
+														<form class="form-material" action="saveFood" method="post">
+															
+															<div class="form-group form-default">
+																<input type="text" name="name" id="name" class="form-control" required> 
+																<span class="form-bar"></span> 
+																<label class="float-label">Nome:</label>
+															</div>
+															<div class="form-group form-default">
+																<input type="number" name="price" id="price" class="form-control" required> 
+																<span class="form-bar"></span> 
+																<label class="float-label">Valor:</label>
+															</div>
+															<div class="form-group form-default">
+																	<label class="form-label">Categoria:</label> 
+																	 <select name="id_category" class="form-control">
+																		<option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+																	</select>
+															</div>
+															<button class="btn btn-primary waves-effect waves-light">Cadastrar</button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="styleSelector"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div th:include="includes/jsfile.html"></div>
+
+</body>
+</html>

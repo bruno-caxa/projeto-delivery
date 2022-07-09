@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/I999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  										   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<meta charset="UTF-8">
+<div th:include="includes/head.html"></div>
+
+  <body>
+ 	
+  <!-- Pre-loader start -->	
+  <div th:include="includes/theme-loader.html"></div>
+  
+  <!-- Pre-loader end -->
+  <div id="pcoded" class="pcoded">
+      <div class="pcoded-overlay-box"></div>
+      <div class="pcoded-container navbar-wrapper">
+		
+		<div th:include="includes/navbar.html"></div>
+
+          <div class="pcoded-main-container">
+              <div class="pcoded-wrapper">
+				
+				<div th:include="includes/navbarmainmenu.html"></div>
+				
+                  <div class="pcoded-content">
+                      <!-- Page-header start -->
+                      	<div th:include="includes/pageheader.html"></div>
+                      <!-- Page-header end -->
+                        <div class="pcoded-inner-content">
+                            <!-- Main-body start -->
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <!-- Page-body start -->
+                                    <div class="page-body">
+										<h4>Realizar pedido</h4>
+										<div class="row">
+											<div class="col-sm-12">
+												<!-- Basic Form Inputs card start -->
+												<div class="card">
+													<div class="card-block">
+														<h4 class="sub-title">Selecione o alimento que você deseja para adicionar ao carrinho (máx 5 por alimento)</h4>
+														
+														 <div class="form-row">
+														
+															<div class="col">
+															 <div th:if="${esfihas.size > 0}">
+																 <span>Esfihas</span>
+																  <table class="table table-hover">
+																	<thead>
+																	  <tr>
+																		<th>Nome</th>
+																		<th>Valor</th>
+																	  </tr>
+																	</thead>
+																    <tbody>
+																	  <tr th:each = "esfiha : ${esfihas}">
+																			<td><a th:href="@{/addInCart/{id_food}(id_food=${esfiha.id})}"><span th:text = "${esfiha.name}"></span></a></td>
+																			<td th:text = "${esfiha.price}"></td>
+																		</tr>
+																	</tbody>
+																  </table>
+															 </div>
+															 <div th:unless="${esfihas.size > 0}">
+														 		<span>Não há esfihas disponiveis</span>
+													 		 </div>
+															</div>
+														 
+															 <div class="col">
+															  <div th:if="${snacks.size > 0}">
+																 <span>Lanches</span> 
+																  <table class="table table-hover">
+																	<thead>
+																	  <tr>
+																		<th>Nome</th>
+																		<th>Valor</th>
+																	  </tr>
+																	</thead>
+																    <tbody>
+																	  <tr th:each = "snack: ${snacks}">
+																			<td><a th:href="@{/addInCart/{id_food}(id_food=${snack.id})}"><span th:text = "${snack.name}"></span></a></td>
+																			<td th:text = "${snack.price}"></td>
+																		</tr>
+																	</tbody>
+																  </table>
+															   </div>
+															   <div th:unless="${snacks.size > 0}">
+														 		 <span>Não há lanches disponiveis</span>
+													 		   </div>
+															 </div>
+															 
+															 <div class="col">
+															  <div th:if="${drinks.size > 0}">
+															 	 <span>Bebidas</span> 
+																  <table class="table table-hover">
+																	<thead>
+																	  <tr>
+																		<th>Nome</th>
+																		<th>Valor</th>
+																	  </tr>
+																	</thead>
+																    <tbody>
+																	  <tr th:each = "drink : ${drinks}"> 
+																			<td><a th:href="@{/addInCart/{id_food}(id_food=${drink.id})}"><span th:text = "${drink.name}"></span></a></td>
+																			<td th:text = "${drink.price}"></td>
+																		</tr>
+																	</tbody>
+																  </table>
+															   </div>
+															   <div th:unless="${drinks.size > 0}">
+														 		 <span>Não há bebidas disponiveis</span>
+													 		   </div>  
+															 </div>
+															 
+														 </div>
+													</div>
+												</div>
+											</div>
+										</div>
+                                    <!-- Page-body end -->
+                                  </div>
+                               </div>
+                                <div id="styleSelector"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:include="includes/jsfile.html"></div>
+    
+</body>
+</html>

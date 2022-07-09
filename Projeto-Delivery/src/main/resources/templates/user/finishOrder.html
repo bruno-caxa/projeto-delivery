@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/I999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  										   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<meta charset="UTF-8">
+<div th:include="includes/head.html"></div>
+
+  <body>
+ 	
+  <!-- Pre-loader start -->	
+  <div th:include="includes/theme-loader.html"></div>
+  
+  <!-- Pre-loader end -->
+  <div id="pcoded" class="pcoded">
+      <div class="pcoded-overlay-box"></div>
+      <div class="pcoded-container navbar-wrapper">
+		
+		<div th:include="includes/navbar.html"></div>
+
+          <div class="pcoded-main-container">
+              <div class="pcoded-wrapper">
+				
+				<div th:include="includes/navbarmainmenu.html"></div>
+				
+                  <div class="pcoded-content">
+                      <!-- Page-header start -->
+                      	<div th:include="includes/pageheader.html"></div>
+                      <!-- Page-header end -->
+                        <div class="pcoded-inner-content">
+                            <!-- Main-body start -->
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <!-- Page-body start -->
+                                    <div class="page-body">
+										<h4>Carrinho de compras</h4>
+										<div class="row">
+											<div class="col-sm-12">
+												<!-- Basic Form Inputs card start -->
+												<div class="card">
+													<div class="card-block table-border-style">
+														<h4 class="sub-title">Insira as informações necessária para a entrega do seu pedido</h4>
+														
+														 <div class="table-responsive">
+													
+															<div th:if="${items.size > 0}">
+																<table class="table">
+																	<thead>
+																		<tr>
+																			<th>Nome</th>
+																			<th>Preço</th>
+																			<th>Quantidade</th>
+																			<th class="text-right">Total</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr th:each = "item : ${items}">
+																			<td th:text="${item.food.name}"></td>
+																			<td th:text="${item.food.price}"></td>
+																			<td th:text="${item.qtde}"></td>
+																			<td class="text-right" th:text="${item.getTotalValue}"></td>
+																		</tr>
+																		<tr>
+																			<td></td>
+																			<td></td>
+																			<td></td>
+																			<td class="text-right">Valor total: R$<span th:text="${totalValue}"></span></td>
+																		</tr>
+																	</tbody>
+																  </table>
+																 <form class="form-material" action="finalizingOrder" method="post">
+																	<div class="form-group form-default">
+																		<input type="text" name="address" id="address" class="form-control" required> 
+																		<span class="form-bar"></span> 
+																		<label class="float-label">Endereço:</label>
+																	</div>
+																	<div class="form-group form-default">
+																		<input type="number" name="number" id="number" class="form-control" maxlength="4" required> 
+																		<span class="form-bar"></span> 
+																		<label class="float-label">Número:</label>
+																	</div>
+																	
+																	
+																	<input type="hidden" name="totalValue" th:value="${totalValue}">
+																	<input class="btn btn-primary" type="submit" value="Finalizar"> 
+															  	</form>	
+															 </div>
+															 <div th:unless="${items.size > 0}">
+																 <span>Carrinho de compras vazio</span><br><br>
+																 <a class="btn btn-secondary" href="/placeOrder">Voltar</a>
+															 </div>  
+															  
+														 </div>
+															 
+													</div>
+												</div>
+											</div>
+										</div>
+                                    <!-- Page-body end -->
+                                  </div>
+                               </div>
+                                <div id="styleSelector"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:include="includes/jsfile.html"></div>
+    
+</body>
+</html>

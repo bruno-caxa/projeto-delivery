@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/I999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  										   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<meta charset="UTF-8">
+<div th:include="includes/head.html"></div>
+
+<body>
+  <!-- Pre-loader start -->	
+  <div th:include="includes/theme-loader.html"></div>
+  
+  <!-- Pre-loader end -->
+  <div id="pcoded" class="pcoded">
+      <div class="pcoded-overlay-box"></div>
+      <div class="pcoded-container navbar-wrapper">
+		
+		<div th:include="includes/navbar.html"></div>
+
+          <div class="pcoded-main-container">
+              <div class="pcoded-wrapper">
+				
+				<div th:include="includes/navbarmainmenu.html"></div>
+				
+                  <div class="pcoded-content">
+                      <!-- Page-header start -->
+                      	<div th:include="includes/pageheader.html"></div>
+                      <!-- Page-header end -->
+                        <div class="pcoded-inner-content">
+                            <!-- Main-body start -->
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <!-- Page-body start -->
+                                    <div class="page-body">
+										<h4>Pedidos</h4>
+										<div class="card">
+												<div class="card-block table-border-style">
+												 <div class="table-responsive">
+													
+													<div th:if="${orders.size > 0}">
+													
+													  <div th:each="order : ${orders}">
+														<table class="table">
+															<thead>
+																<tr>
+																	<th>Endereço</th>
+																	<th>N°</th>
+																	<th>Data</th>
+																	<th>Valor total</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td th:text="${order.address}"></td>
+																	<td th:text="${order.number}"></td>
+																	<td th:text="${#dates.format(order.date, 'dd/MM/yyyy HH:mm')}"></td>
+																	<td>R$<span th:text="${order.totalValue}"></span></td>
+																</tr>
+																
+																<tr>
+																	<th>Alimento</th>
+																	<th>Qtde</th>
+																</tr>
+																
+																<tr th:each="foodOrder : ${order.foodOrder}">
+																	<td th:text="${foodOrder.food.name}"></td>													
+																	<td th:text="${foodOrder.qtde}"></td>
+																</tr>
+															</tbody>
+														</table>
+															<a class="btn btn-sm btn-primary" th:href="@{/orderDelivered/{id_order}(id_order=${order.id})}">Pedido Entregue</a>
+															<br><br>
+													  </div>	
+													 </div>
+													 <div th:unless="${orders.size > 0}">
+														 <span>Não há pedidos disponiveis no momento</span>
+													 </div>  
+												 </div>
+												</div>
+										</div>
+                                    <!-- Page-body end -->
+                                </div>
+                               </div>
+                                <div id="styleSelector"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:include="includes/jsfile.html"></div>
+    
+</body>
+</html>

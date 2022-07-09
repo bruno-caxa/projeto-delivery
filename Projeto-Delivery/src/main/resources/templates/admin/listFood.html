@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/I999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  										   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<meta charset="UTF-8">
+<div th:include="includes/head.html"></div>
+
+  <body>
+ 	
+  <!-- Pre-loader start -->	
+  <div th:include="includes/theme-loader.html"></div>
+  
+  <!-- Pre-loader end -->
+  <div id="pcoded" class="pcoded">
+      <div class="pcoded-overlay-box"></div>
+      <div class="pcoded-container navbar-wrapper">
+		
+		<div th:include="includes/navbar.html"></div>
+
+          <div class="pcoded-main-container">
+              <div class="pcoded-wrapper">
+				
+				<div th:include="includes/navbarmainmenu.html"></div>
+				
+                  <div class="pcoded-content">
+                      <!-- Page-header start -->
+                      	<div th:include="includes/pageheader.html"></div>
+                      <!-- Page-header end -->
+                        <div class="pcoded-inner-content">
+                            <!-- Main-body start -->
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <!-- Page-body start -->
+                                    <div class="page-body">
+										<h4>Alimentos</h4>
+										<div class="card">
+												<div class="card-block table-border-style">
+												 <div class="table-responsive">
+													
+													<div th:if="${foods.size > 0}">
+													
+													  <form action="deleteFood" method="post">
+														<table class="table">
+															<thead>
+																<tr>
+																	<th></th>
+																	<th>Nome</th>
+																	<th>Preço</th>
+																	<th>Categoria</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr th:each = "food : ${foods}">
+																	<td><input type="radio" name="id_food" th:value="${food.id}" required></td>
+																	<td th:text="${food.name}"></td>
+																	<td th:text="${food.price}"></td>
+																	<td th:text="${food.category.name}"></td>
+																</tr>
+															</tbody>
+														</table>
+															<input class="btn btn-danger" type="submit" value="Deletar Alimento"> 
+													  </form>	
+													 </div>
+													 <div th:unless="${foods.size > 0}">
+														 <span>Não há alimentos disponiveis</span>
+													 </div>  
+													  
+												 </div>
+												</div>
+										</div>
+                                    <!-- Page-body end -->
+                                </div>
+                               </div>
+                                <div id="styleSelector"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:include="includes/jsfile.html"></div>
+    
+</body>
+</html>

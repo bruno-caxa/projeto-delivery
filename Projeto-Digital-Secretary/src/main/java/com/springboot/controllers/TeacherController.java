@@ -42,9 +42,9 @@ public class TeacherController {
 	}
 	
 	@PostMapping(value = "/saveTeacher")
-	public ModelAndView saveTeacher(Teacher student, Usuario user) {
+	public ModelAndView saveTeacher(Teacher teacher, Usuario user) {
 		ModelAndView mav = new ModelAndView("principal/index");
-		teacherService.save(student, user);
+		teacherService.save(teacher, user);
 		mav.addObject("user", userService.loadUserSession());
 		mav.addObject("msg","Teacher successfully saved!");
 		return mav;

@@ -1,0 +1,81 @@
+<meta charset="UTF-8">
+<nav class="pcoded-navbar" >
+	<div class="sidebar_toggle">
+		<a href="#"><i class="icon-close icons"></i></a>
+	</div>
+	<div class="pcoded-inner-navbar main-menu">
+		<div class="">
+			<div class="main-menu-header">
+				<i class="bi bi-egg-fill">
+					<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-egg-fill" viewBox="0 0 16 16">
+  						<path d="M14 10a6 6 0 0 1-12 0C2 5.686 5 0 8 0s6 5.686 6 10z"/>
+					</svg>
+				</i>
+			</div>
+		</div>
+
+		<ul class="pcoded-item pcoded-left-item">
+			<li class="pcoded-hasmenu">
+				<a href="javascript:void(0)"	class="waves-effect waves-dark"> 
+					<span class="pcoded-micon">
+						<i class="ti-layout-grid2-alt"></i>
+					</span> 
+					<span class="pcoded-mtext" data-i18n="nav.basic-components.main">Opções</span> 
+					<span class="pcoded-mcaret"></span>
+				</a>
+
+
+				<ul class="pcoded-submenu">
+
+						<li sec:authorize="isAuthenticated()">
+							<a href="/addFood" class="waves-effect waves-dark" > 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Cadastrar alimento
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li sec:authorize="isAuthenticated()">
+							<a href="/listFood" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Listar alimentos
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li sec:authorize="isAuthenticated()">
+							<a href="/orders" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Pedidos
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li sec:authorize="!isAuthenticated()">
+							<a href="/placeOrder" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Realizar pedido
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</nav>
