@@ -44,18 +44,20 @@
 															<div th:if="${items.size > 0}">
 																<table class="table">
 																	<thead>
-																		<tr>
+																		<tr>	
+																			<th></th>
 																			<th>Nome</th>
-																			<th>Preço</th>
-																			<th class="text-right">Quantidade</th>
+																			<th>Valor</th>
+																			<th class="text-center">Quantidade</th>
 																			<th class="text-right">Total</th>
 																		</tr>
 																	</thead>
 																	<tbody>
 																		<tr th:each = "item : ${items}">
+																			<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${item.food.id})}" width="50px"/></td>
 																			<td th:text="${item.food.name}"></td>
 																			<td th:text="${item.food.price}"></td>
-																			<td class="text-right"><span th:text="${item.qtde}"></span>
+																			<td class="text-center"><span th:text="${item.qtde}"></span>
 																				<a class="btn btn-sm btn-primary" th:href="@{/updateQuantity/{id_food}/{action}(id_food=${item.food.id}, action=1)}">
 																					<i class="fa fa-plus"></i>
 																				</a>
@@ -74,12 +76,13 @@
 																			<td></td>
 																			<td></td>
 																			<td></td>
+																			<td></td>
 																			<td class="text-right">Valor total: R$<span th:text="${totalValue}"></span></td>
 																		</tr>
 																	</tbody>
 																</table>
-																	<a class="btn btn-secondary" href="/placeOrder">Continuar</a>
 																	<a class="btn btn-primary" href="/finishOrder">Finalizar</a>
+																	<a class="btn btn-secondary" href="/placeOrder">Continuar</a>
 															 </div>
 															 <div th:unless="${items.size > 0}">
 																 <span>Carrinho de compras vazio</span><br><br>

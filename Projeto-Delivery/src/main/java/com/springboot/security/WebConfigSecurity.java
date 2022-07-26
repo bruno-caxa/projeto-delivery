@@ -25,7 +25,8 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/addFood").authenticated()
 				.antMatchers("/listFood").authenticated()
-				.antMatchers("/orders").authenticated()
+				.antMatchers("/ordersPending","/ordersDelivered").authenticated()
+				.antMatchers("/profits").authenticated()
 				.anyRequest().permitAll()
 			.and()
 				.formLogin()
@@ -42,7 +43,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 			.passwordEncoder(new BCryptPasswordEncoder());
 	}
 	
-	@Override //Ignora as urls especificas
+	@Override 
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/assets/**");
 	}

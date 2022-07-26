@@ -9,10 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,8 +34,11 @@ public class Food implements Serializable {
 	@Column(nullable = false)
 	private Double price;
 	
+	@Lob
+	@Type(type = "org.hibernate.type.ImageType")
+	private byte[] image;
+	
 	@ManyToOne()
-	@JoinColumn(name = "category_id")
 	private Category category;
 	
 	@JsonIgnore
@@ -67,6 +72,14 @@ public class Food implements Serializable {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
 
 	public Category getCategory() {
 		return category;
@@ -75,4 +88,13 @@ public class Food implements Serializable {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
+	public List<FoodOrder> getFoodOrder() {
+		return foodOrder;
+	}
+
+	public void setFoodOrder(List<FoodOrder> foodOrder) {
+		this.foodOrder = foodOrder;
+	}
+	
 }

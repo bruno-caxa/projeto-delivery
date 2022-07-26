@@ -1,10 +1,12 @@
 package com.springboot.services;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.springboot.entities.Food;
 import com.springboot.repositories.FoodRepository;
@@ -47,8 +49,28 @@ public class FoodService {
 		return foodRepository.findById(id).get();
 	}
 	
-	public void save(Food food) {
+	public void save(Food food, MultipartFile image) {
+		try {
+			if(!image.isEmpty()) {
+				food.setImage(image.getBytes());
+			} else {
+				if(food.getId() != null) {
+					byte[] picture = findById(food.getId()).getImage();
+					food.setImage(picture);
+				}
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		foodRepository.save(food);
+	}
+	
+	public List<Food> search(String food) {
+		List<Food> foods = foodRepository.search(food);
+		foods.sort(Comparator.comparing(Food::getName));
+		return foods;
 	}
 	
 }

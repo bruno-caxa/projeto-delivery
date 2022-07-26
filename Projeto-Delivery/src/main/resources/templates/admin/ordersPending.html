@@ -30,7 +30,7 @@
                                 <div class="page-wrapper">
                                     <!-- Page-body start -->
                                     <div class="page-body">
-										<h4>Pedidos</h4>
+										<h4>Pedidos Pendentes</h4>
 										<div class="card">
 												<div class="card-block table-border-style">
 												 <div class="table-responsive">
@@ -54,15 +54,22 @@
 																	<td th:text="${#dates.format(order.date, 'dd/MM/yyyy HH:mm')}"></td>
 																	<td>R$<span th:text="${order.totalValue}"></span></td>
 																</tr>
-																
+															</tbody>
+														</table>
+														<br>
+														<table class="table">
+															<thead>
 																<tr>
+																	<th></th>
 																	<th>Alimento</th>
 																	<th>Qtde</th>
 																</tr>
-																
+															</thead>
+															<tbody>
 																<tr th:each="foodOrder : ${order.foodOrder}">
+																	<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${foodOrder.food.id})}" width="50px"/></td>
 																	<td th:text="${foodOrder.food.name}"></td>													
-																	<td th:text="${foodOrder.qtde}"></td>
+																	<td width="50%" th:text="${foodOrder.qtde}"></td>
 																</tr>
 															</tbody>
 														</table>
@@ -71,7 +78,7 @@
 													  </div>	
 													 </div>
 													 <div th:unless="${orders.size > 0}">
-														 <span>Não há pedidos disponiveis no momento</span>
+														 <span>Não há pedidos pendentes disponiveis no momento!</span>
 													 </div>  
 												 </div>
 												</div>

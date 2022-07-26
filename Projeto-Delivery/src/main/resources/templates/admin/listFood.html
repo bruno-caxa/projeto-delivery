@@ -34,31 +34,27 @@
 										<h4>Alimentos</h4>
 										<div class="card">
 												<div class="card-block table-border-style">
+												<h4 class="sub-title">Selecione o alimento que você deseja editar</h4>
 												 <div class="table-responsive">
-													
 													<div th:if="${foods.size > 0}">
-													
-													  <form action="deleteFood" method="post">
-														<table class="table">
+														<table class="table table-hover">
 															<thead>
 																<tr>
 																	<th></th>
 																	<th>Nome</th>
-																	<th>Preço</th>
+																	<th>Valor</th>
 																	<th>Categoria</th>
 																</tr>
 															</thead>
 															<tbody>
 																<tr th:each = "food : ${foods}">
-																	<td><input type="radio" name="id_food" th:value="${food.id}" required></td>
-																	<td th:text="${food.name}"></td>
+																	<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${food.id})}" width="70px"/></td>
+																	<td><a data-toggle="modal" data-target="#foodModal" th:onclick="@{'editFood('+${food.id}+');'}" th:text="${food.name}" href="#"></a></td>
 																	<td th:text="${food.price}"></td>
 																	<td th:text="${food.category.name}"></td>
 																</tr>
 															</tbody>
 														</table>
-															<input class="btn btn-danger" type="submit" value="Deletar Alimento"> 
-													  </form>	
 													 </div>
 													 <div th:unless="${foods.size > 0}">
 														 <span>Não há alimentos disponiveis</span>
@@ -79,7 +75,94 @@
         </div>
     </div>
     
+    <div class="modal fade" id="foodModal" tabindex="-1" role="dialog"	aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel">Edição de alimento</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<form class="form-material" action="saveFood" method="post" th:object="${food}" enctype="multipart/form-data">
+						
+						<input type="hidden" name="id" id="id" th:field="*{id}">
+															
+						<div class="form-group form-default">
+							<img alt="Imagem alimento" id="imageFood" src="" width="70px">
+                            <input type="file" id="fileImage" name="fileImage" accept="image/*" onchange="showImg('imageFood','fileImage');" class="form-control-file" style="margin-top:15px;"> 
+                        </div>
+															
+						<div class="form-group form-default">
+							<input type="text" name="name" id="name" class="form-control" th:field="*{name}" required> 
+							<span class="form-bar"></span> 
+							<label class="float-label">Nome:</label>
+						</div>
+															
+						<div class="form-group form-default">
+							<input type="number" name="price" id="price" class="form-control" th:field="*{price}" required> 
+							<span class="form-bar"></span> 
+							<label class="float-label">Valor:</label>
+						</div>
+															
+						<div class="form-group form-default">
+							<label class="form-label">Categoria:</label> 
+							<select name="id_category" id="id_category" class="form-control" th:field="*{category}">
+								<option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+							</select>
+						</div>
+						<button type="submit" class="btn btn-primary waves-effect waves-light">Salvar</button>
+						<a id="buttonDelete" href="" class="btn btn-danger waves-effect waves-light">Excluir</a>
+					</form>	
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"	data-dismiss="modal" onclick="document.getElementById('fileImage').value = ''">Exit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+    
     <div th:include="includes/jsfile.html"></div>
+    
+    <script type="text/javascript">
+		function editFood(id) {
+			$.ajax({
+				method: "get",
+				url: "getFood",
+				data: "id_food=" + id,
+				success: function(food) {
+					$('#id').val(food.id);
+					$('#imageFood').prop('src','showImage/' + food.id);
+					$('#name').val(food.name);
+					$('#price').val(food.price);
+					$('#id_category').val(food.category.id);
+					$('#buttonDelete').prop('href','deleteFood/' + food.id);
+				} 
+						
+				}).fail(function(xhr, status, errorThrown){
+					alert("Error: " + xhr.responseText);
+				});
+		}
+		
+		function showImg(imageFood, fileImage) {
+			var preview = document.getElementById(imageFood); //Campo img HTML 
+			var fileUser = document.getElementById(fileImage).files[0]; //
+			var reader = new FileReader();
+			
+			reader.onloadend = function() {
+				preview.src = reader.result; //Carrega foto na tela
+			};
+			
+			if(fileUser) {
+				reader.readAsDataURL(fileUser);
+			} else {
+				preview.src = '';
+			}
+		}
+    </script>
     
 </body>
 </html>

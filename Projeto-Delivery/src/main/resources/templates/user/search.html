@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/I999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  										   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<meta charset="UTF-8">
+<div th:include="includes/head.html"></div>
+
+  <body>
+ 	
+  <!-- Pre-loader start -->	
+  <div th:include="includes/theme-loader.html"></div>
+  
+  <!-- Pre-loader end -->
+  <div id="pcoded" class="pcoded">
+      <div class="pcoded-overlay-box"></div>
+      <div class="pcoded-container navbar-wrapper">
+		
+		<div th:include="includes/navbar.html"></div>
+
+          <div class="pcoded-main-container">
+              <div class="pcoded-wrapper">
+				
+				<div th:include="includes/navbarmainmenu.html"></div>
+				
+                  <div class="pcoded-content">
+                      <!-- Page-header start -->
+                      	<div th:include="includes/pageheader.html"></div>
+                      <!-- Page-header end -->
+                        <div class="pcoded-inner-content">
+                            <!-- Main-body start -->
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <!-- Page-body start -->
+                                    <div class="page-body">
+										<h4>Resultados da pesquisa "<span th:text="${foodSearch}"></span>"</h4>
+										<div class="card">
+												<div class="card-block table-border-style">
+												 <div class="table-responsive">
+													<div th:if="${foods.size > 0}">
+														<table class="table table-hover">
+															<thead>
+																<tr>
+																	<th></th>
+																	<th>Nome</th>
+																	<th>Valor</th>
+																	<th>Categoria</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr th:each = "food : ${foods}">
+																	<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${food.id})}" width="70px"/></td>
+																	<td><a th:href="@{/addInCart/{id_food}(id_food=${food.id})}"><span th:text = "${food.name}"></span></a></td>
+																	<td th:text="${food.price}"></td>
+																	<td th:text="${food.category.name}"></td>
+																</tr>
+															</tbody>
+														</table>
+													 </div>
+													 <div th:unless="${foods.size > 0}">
+														 <span>Nenhum alimento encontrado. Tente novamente!</span>
+													 </div>  
+												 </div>
+												</div>
+										</div>
+                                    <!-- Page-body end -->
+                                </div>
+                               </div>
+                                <div id="styleSelector"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:include="includes/jsfile.html"></div>
+    
+</body>
+</html>

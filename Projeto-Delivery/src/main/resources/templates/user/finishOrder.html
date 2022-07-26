@@ -45,20 +45,23 @@
 																<table class="table">
 																	<thead>
 																		<tr>
+																			<td></td>
 																			<th>Nome</th>
-																			<th>Preço</th>
-																			<th>Quantidade</th>
+																			<th>Valor</th>
+																			<th class="text-center">Quantidade</th>
 																			<th class="text-right">Total</th>
 																		</tr>
 																	</thead>
 																	<tbody>
 																		<tr th:each = "item : ${items}">
+																			<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${item.food.id})}" width="50px"/></td>
 																			<td th:text="${item.food.name}"></td>
 																			<td th:text="${item.food.price}"></td>
-																			<td th:text="${item.qtde}"></td>
+																			<td class="text-center" th:text="${item.qtde}"></td>
 																			<td class="text-right" th:text="${item.getTotalValue}"></td>
 																		</tr>
 																		<tr>
+																			<td></td>
 																			<td></td>
 																			<td></td>
 																			<td></td>
@@ -80,7 +83,8 @@
 																	
 																	
 																	<input type="hidden" name="totalValue" th:value="${totalValue}">
-																	<input class="btn btn-primary" type="submit" value="Finalizar"> 
+																	<input class="btn btn-primary" type="submit" value="Finalizar">
+																	<a class="btn btn-secondary" href="/cart">Voltar</a> 
 															  	</form>	
 															 </div>
 															 <div th:unless="${items.size > 0}">

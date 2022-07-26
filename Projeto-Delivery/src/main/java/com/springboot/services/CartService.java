@@ -23,10 +23,12 @@ public class CartService {
 		int control = 0;
 		for(FoodOrder it : items) {
 			if(it.getFood().getId().equals(food.getId())) {
-				it.setQtde(it.getQtde() + 1);
-				it.setTotalValue(it.getQtde() * it.getFood().getPrice()); 
 				control++;
-				break;
+				if(it.getQtde() < 5) {
+					it.setQtde(it.getQtde() + 1);
+					it.setTotalValue(it.getQtde() * it.getFood().getPrice()); 
+					break;
+				}	
 			} 
 		}
 	
@@ -74,7 +76,9 @@ public class CartService {
 						items.remove(it);
 					}
 				} else {
-					it.setQtde(it.getQtde() + 1);
+					if(it.getQtde() < 5) {
+						it.setQtde(it.getQtde() + 1);
+					}
 				}
 				it.setTotalValue(it.getQtde() * it.getFood().getPrice());
 				break;

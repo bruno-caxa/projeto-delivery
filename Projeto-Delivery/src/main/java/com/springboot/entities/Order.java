@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +40,7 @@ public class Order implements Serializable {
 	
 	private OrderStatus status;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "tb_order_food",
 			   joinColumns = @JoinColumn(name = "order_id"),
 			   inverseJoinColumns = @JoinColumn(name = "food_order_id"))

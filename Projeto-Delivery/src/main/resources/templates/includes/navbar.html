@@ -1,3 +1,8 @@
+<style type="text/css">
+div #search {
+	margin-top: 6px;
+}
+</style>         
           <nav class="navbar header-navbar pcoded-header">
               <div class="navbar-wrapper">
                   <div class="navbar-logo">
@@ -28,15 +33,17 @@
                           <li>
                               <div class="sidebar_toggle"><a href="javascript:void(0)"><i class="ti-menu"></i></a></div>
                           </li>
-                          <li class="header-search">
-                              <div class="main-search morphsearch-search">
-                                  <div class="input-group">
-                                      <span class="input-group-addon search-close"><i class="ti-close"></i></span>
-                                      <input type="text" class="form-control">
-                                      <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
-                                  </div>
-                              </div>
+                          
+                         
+                          <li>
+							<div id="search">
+							 <form class="form-inline" action="searchFood" method="post">
+								<input class="form-control mr-sm-2" name="foodSearch" placeholder="Pesquisa de alimentos" maxlength="20">
+								<button type="submit" class="btn btn-primary px-2"><i class="ti-search"></i></button>
+							 </form>
+							</div>
                           </li>
+                          
                       </ul>
                       <ul class="nav-right">
                           <li>
@@ -48,8 +55,17 @@
 								</i>
                               </a>
 		                  </li>
-		                  <li>
+		                  <li sec:authorize="!isAuthenticated()">
                               <a href="/login">
+								<i class="bi bi-person">
+									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+  										<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+									</svg>
+								</i>
+                              </a>
+		                  </li>
+		                  <li sec:authorize="isAuthenticated()">
+                              <a href="/logout">
 								<i class="bi bi-person">
 									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
   										<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>

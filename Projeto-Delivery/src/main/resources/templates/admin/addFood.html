@@ -39,23 +39,32 @@
 													<div class="card-block">
 														<h4 class="sub-title">Insira as informações necessárias</h4>
 														
-														<form class="form-material" action="saveFood" method="post">
+														<form class="form-material" action="saveFood" method="post" th:object="${food}" enctype="multipart/form-data">
+															
+															<input type="hidden" name="id" id="id" th:field="*{id}"> 
 															
 															<div class="form-group form-default">
-																<input type="text" name="name" id="name" class="form-control" required> 
+																<img alt="Imagem alimento" id="imageBase64" width="70px">
+                                                            	<input type="file" id="fileImage" name="fileImage" accept="image/*" onchange="showImg('imageBase64','fileImage');" class="form-control-file" style="margin-top:15px;"> 
+                                                            </div>
+															
+															<div class="form-group form-default">
+																<input type="text" name="name" id="name" class="form-control" th:field="*{name}" maxlength="40" required> 
 																<span class="form-bar"></span> 
 																<label class="float-label">Nome:</label>
 															</div>
+															
 															<div class="form-group form-default">
-																<input type="number" name="price" id="price" class="form-control" required> 
+																<input type="number" name="price" id="price" class="form-control" th:field="*{price}" maxlength="4" required> 
 																<span class="form-bar"></span> 
 																<label class="float-label">Valor:</label>
 															</div>
+															
 															<div class="form-group form-default">
-																	<label class="form-label">Categoria:</label> 
-																	 <select name="id_category" class="form-control">
-																		<option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-																	</select>
+																<label class="form-label">Categoria:</label> 
+																 <select class="form-control" th:field="*{category}">
+																	<option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+																</select>
 															</div>
 															<button class="btn btn-primary waves-effect waves-light">Cadastrar</button>
 														</form>
@@ -75,6 +84,26 @@
 	</div>
 	
 	<div th:include="includes/jsfile.html"></div>
+	
+	<script type="text/javascript">
+		function showImg(imageBase64, fileImage) {
+			var preview = document.getElementById(imageBase64); //Campo img HTML 
+			var fileUser = document.getElementById(fileImage).files[0]; //
+			var reader = new FileReader();
+			
+			reader.onloadend = function() {
+				preview.src = reader.result; //Carrega foto na tela
+			};
+			
+			if(fileUser) {
+				reader.readAsDataURL(fileUser);
+			} else {
+				preview.src = '';
+			}
+		
+		
+		}
+    </script>
 
 </body>
 </html>

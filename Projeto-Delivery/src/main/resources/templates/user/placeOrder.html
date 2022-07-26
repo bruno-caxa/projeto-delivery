@@ -47,12 +47,14 @@
 																  <table class="table table-hover">
 																	<thead>
 																	  <tr>
+																	  	<th></th>
 																		<th>Nome</th>
 																		<th>Valor</th>
 																	  </tr>
 																	</thead>
 																    <tbody>
 																	  <tr th:each = "esfiha : ${esfihas}">
+																	  		<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${esfiha.id})}" width="50px"/></td>
 																			<td><a th:href="@{/addInCart/{id_food}(id_food=${esfiha.id})}"><span th:text = "${esfiha.name}"></span></a></td>
 																			<td th:text = "${esfiha.price}"></td>
 																		</tr>
@@ -70,12 +72,14 @@
 																  <table class="table table-hover">
 																	<thead>
 																	  <tr>
+																	  	<th></th>
 																		<th>Nome</th>
 																		<th>Valor</th>
 																	  </tr>
 																	</thead>
 																    <tbody>
 																	  <tr th:each = "snack: ${snacks}">
+																	  		<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${snack.id})}" width="50px"/></td>
 																			<td><a th:href="@{/addInCart/{id_food}(id_food=${snack.id})}"><span th:text = "${snack.name}"></span></a></td>
 																			<td th:text = "${snack.price}"></td>
 																		</tr>
@@ -93,12 +97,14 @@
 																  <table class="table table-hover">
 																	<thead>
 																	  <tr>
+																	  	<th></th>
 																		<th>Nome</th>
 																		<th>Valor</th>
 																	  </tr>
 																	</thead>
 																    <tbody>
 																	  <tr th:each = "drink : ${drinks}"> 
+																	  		<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${drink.id})}" width="50px"/></td>
 																			<td><a th:href="@{/addInCart/{id_food}(id_food=${drink.id})}"><span th:text = "${drink.name}"></span></a></td>
 																			<td th:text = "${drink.price}"></td>
 																		</tr>
