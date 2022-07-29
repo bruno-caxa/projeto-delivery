@@ -34,6 +34,14 @@ public class CartController {
 		return "redirect:/cart";
 	}
 	
+	@GetMapping(value = "/finishOrder")
+	public ModelAndView finishOrder() {
+		ModelAndView mav = new ModelAndView("user/finishOrder");
+		mav.addObject("items", cartService.getItems());
+		mav.addObject("totalValue", cartService.getTotalValue());
+		return mav;
+	}
+	
 	@GetMapping(value = "/updateQuantity/{id_food}/{action}")
 	public String updateQuantity(@PathVariable Long id_food, @PathVariable Integer action) {
 		cartService.updateQuantity(id_food, action);

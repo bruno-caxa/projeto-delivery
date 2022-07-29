@@ -35,7 +35,7 @@
 										<div class="card">
 												<div class="card-block table-border-style">
 												 <div class="table-responsive">
-													<div th:if="${foods.size > 0}">
+													<div th:if="${foodPage.content.size > 0}">
 														<table class="table table-hover">
 															<thead>
 																<tr>
@@ -46,7 +46,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<tr th:each = "food : ${foods}">
+																<tr th:each = "food : ${foodPage.content}">
 																	<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${food.id})}" width="70px"/></td>
 																	<td><a th:href="@{/addInCart/{id_food}(id_food=${food.id})}"><span th:text = "${food.name}"></span></a></td>
 																	<td th:text="${food.price}"></td>
@@ -55,7 +55,16 @@
 															</tbody>
 														</table>
 													 </div>
-													 <div th:unless="${foods.size > 0}">
+													 
+													  <nav>
+									  					<ul class="pagination">
+										  				   <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+										  				   	<a class="page-link" th:href="@{/searchFood(food=${foodSearch},page=${pageNumber})}" th:text="${pageNumber}"></a>
+										  				   </li>
+									  					</ul>
+													  </nav>
+													 
+													 <div th:unless="${foodPage.content.size > 0}">
 														 <span>Nenhum alimento encontrado. Tente novamente!</span>
 													 </div>  
 												 </div>

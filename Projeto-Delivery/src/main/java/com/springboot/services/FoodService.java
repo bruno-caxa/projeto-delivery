@@ -5,9 +5,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.springboot.controllers.PageableUtil;
 import com.springboot.entities.Food;
 import com.springboot.repositories.FoodRepository;
 
@@ -16,6 +19,9 @@ public class FoodService {
 
 	@Autowired
 	private FoodRepository foodRepository;
+	
+	@Autowired
+	private PageableUtil<Food> pageableUtil;
 	
 	public void deleteById(Long id) {
 		foodRepository.deleteById(id);
@@ -67,10 +73,15 @@ public class FoodService {
 		foodRepository.save(food);
 	}
 	
-	public List<Food> search(String food) {
+	public Page<Food> search(Pageable pageable, String food) {
 		List<Food> foods = foodRepository.search(food);
 		foods.sort(Comparator.comparing(Food::getName));
-		return foods;
+
+		return pageableUtil.pagination(pageable, foods);
+	}
+	
+	public List<Integer> totalPages(Page<Food> page) {
+		return pageableUtil.totalPages(page);
 	}
 	
 }

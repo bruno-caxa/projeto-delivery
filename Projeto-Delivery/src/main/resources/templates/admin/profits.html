@@ -36,42 +36,45 @@
 												<div class="card-block">
 													<h4 class="sub-title">Selecione o mês</h4>
 														
-														<div class="form-group form-default">
-															 <select id="months" class="form-control">
-																<option value="0">Janeiro</option>
-																<option value="1">Fevereiro</option>
-																<option value="2">Março</option>
-																<option value="3">Abril</option>
-																<option value="4">Maio</option>
-																<option value="5">Junho</option>
-																<option value="6">Julho</option>
-																<option value="7">Agosto</option>
-																<option value="8">Setembro</option>
-																<option value="9">Outubro</option>
-																<option value="10">Novembro</option>
-																<option value="11">Dezembro</option>
+														<div class="form-row">
+														  <div class="column">
+															 <select id="months" class="form-control" onchange="changeMonth(this)">
+																<option selected disabled>------- Opções -------</option>
+																<option value="01">Janeiro</option>
+																<option value="02">Fevereiro</option>
+																<option value="03">Março</option>
+																<option value="04">Abril</option>
+																<option value="05">Maio</option>
+																<option value="06">Junho</option>
+																<option value="07">Julho</option>
+																<option value="08">Agosto</option>
+																<option value="09">Setembro</option>
+																<option value="10">Outubro</option>
+																<option value="11">Novembro</option>
+																<option value="12">Dezembro</option>
 															</select>
+														  </div>
 														</div>
-														<button class="btn btn-primary waves-effect waves-light" onclick="montlhyProfits()">Buscar</button>
-												
-													<div style="margin-top:20px;">
-													    <div id="divTable" style="display:none;">
-															<table class="table" id="tableResults">
-																<thead>
-																	<tr>
-																	  <th>Data</th>
-																	  <th>Total</th>
-																    </tr>
-																</thead>
-																<tbody>
-																</tbody>
-															</table>
-													    </div>
-													    
-													    <div id="divMsg">
-															<span id="msg"></span>
-													    </div>
-													</div>    
+														
+														<div style="margin-top:20px;">
+														    <div id="divTable" style="display:none;">
+																<table class="table" id="tableResults">
+																	<thead>
+																		<tr>
+																		  <th>Data</th>
+																		  <th>Total</th>
+																	    </tr>
+																	</thead>
+																	<tbody>
+																		
+																	</tbody>
+																</table>
+														    </div>
+														    <div id="divMsg">
+														    	<span></span>
+														    </div>
+														</div>   
+
 												</div>
 											</div>
                                 	</div>
@@ -89,69 +92,49 @@
     
     <script type="text/javascript">
     
-    	function montlhyProfits() {
-    		var month = $('#months option:selected').val();
-    		var monthName = $('#months option:selected').text();
-    		
+    	function changeMonth(month) {
     		$.ajax({
-    			method: "get",
-    			url: "montlhyProfits",
-    			data: "month=" + month,
-    			success: function(result) {
+				method: "get",
+				url: "montlhyProfits",
+				data: "month=" + month.value,
+				success: function(json) {
 					
-    			  $('#tableResults > tbody > tr').remove();
-    				
-    			  if(result.length > 0) {
-    				  $('#divTable').show();  
-	    			  $('#divMsg').hide();	  
-    				  
-	    			  var total = 0;
-	      			
-	      			  for(i=0; i < result.length; i++) {
-	      					$('#tableResults > tbody').append('<tr> <td> ' + formatDateBD(result[i].date) + ' </td>' 
-	      													+ '		<td> R$' + result[i].totalValue + '</td>'
-	      													+ '</tr>');
-	      					total += result[i].totalValue;
-	      			  }
-	      				
-	      			 $('#tableResults > tbody').append('<tr><td>Valor Total:</td><td>R$' + total + '</td></tr>');  
-    			  }	else {
-    				 $('#divTable').hide(); 
-    				 $('#divMsg').show();
-    				 $('#msg').text('Não há histórico de lucros no mês de '+ monthName);
-    			  }
-    				
-    				
-    				
-    			} 
-    				
-    			}).fail(function(xhr, status, errorThrown){
-    				alert("Error: " + xhr.responseText);
-    			});
+					let myMap = new Map(Object.entries(json));
+					
+					$('#tableResults > tbody > tr').remove();
+					
+					if(myMap.size > 0) {
+						$('#divTable').show();
+						$('#divMsg').hide();
+						
+						var totalValue = 0;
+						myMap.forEach((value, key) => {
+							formatDate(key);
+							totalValue += value;
+							$('#tableResults > tbody').append('<tr><td>' + formatDate(key) + '</td>' +
+	                                  						  '    <td>R$' + value + '</td>' +
+	                                  						  '</tr>');						
+						});
+						$('#tableResults > tbody').append('<tr><td></td><td>R$'+totalValue+'</td></tr>');
+				 	} else {
+				 		$('#divTable').hide();
+				 		$('#divMsg').show();
+				 		$('#divMsg > span').text('Não há histórico de lucros no mês selecionado!');
+				 	}	
+					
+						
+				} 
+						
+				}).fail(function(xhr, status, errorThrown){
+					alert("Error: " + xhr.responseText);
+				});
     		
     	}
     	
-	    function formatDateBD(date) {
-			var regex = /Date\((\d+)([-+]\d{4})?\)/;
-			var match = regex.exec('/Date(' + date + ')/').slice(1, 3);
-			var dateFormated = new Date(parseInt(match[0]));
-	
-			var year = dateFormated.getFullYear();
-			var month = dateFormated.getMonth();
-			var day = dateFormated.getDate();
-	
-			if (day < 10) {
-				day = '0' + day;
-			}
-			if (month < 10) {
-				month = '0' + (month + 1);
-				if (month == '010') {
-					month = '10';
-				}
-	
-			}
-			return day + '/' + month + '/' + year;
-		}
+    	function formatDate(date) {
+			var dateFormated = date.substring(0,10);
+			return dateFormated;
+    	}
     	
     </script>
     

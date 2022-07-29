@@ -1,6 +1,7 @@
 package com.springboot.controllers;
 
-import java.util.List;
+import java.util.Date;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,25 +13,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.entities.Order;
-import com.springboot.entities.OrderStatus;
-import com.springboot.services.CartService;
 import com.springboot.services.OrderService;
 
 @Controller
 public class OrderController {
 
 	@Autowired
-	private CartService cartService;
-	
-	@Autowired
 	private OrderService orderService;
 	
 	@GetMapping(value = "/deleteOrder/{id_order}")
-	public ModelAndView deleteOrder(@PathVariable Long id_order) {
-		ModelAndView mav = new ModelAndView("admin/ordersDelivered");
+	public String deleteOrder(@PathVariable Long id_order) {
 		orderService.deleteById(id_order);
-		mav.addObject("orders", orderService.findByStatus(OrderStatus.DELIVERED));
-		return mav;
+		return "redirect:/orders?status=1";
 	}
 	
 	@PostMapping(value = "/finalizingOrder")
@@ -41,25 +35,15 @@ public class OrderController {
 		return mav;
 	}
 	
-	@GetMapping(value = "/finishOrder")
-	public ModelAndView finishOrder() {
-		ModelAndView mav = new ModelAndView("user/finishOrder");
-		mav.addObject("items", cartService.getItems());
-		mav.addObject("totalValue", cartService.getTotalValue());
-		return mav;
-	}
-	
 	@GetMapping(value = "/montlhyProfits")
-	public ResponseEntity<List<Order>> montlhyProfits(int month) {
-		return new ResponseEntity<List<Order>>(orderService.montlhyProfits(month), HttpStatus.OK);
+	public ResponseEntity<Map<Date, Double>> montlhyProfits(String month) {
+		return new ResponseEntity<Map<Date,Double>>(orderService.montlhyProfits(month), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/orderDelivered/{id_order}")
-	public ModelAndView orderDelivered(@PathVariable Long id_order) {
-		ModelAndView mav = new ModelAndView("admin/ordersPending");
+	public String orderDelivered(@PathVariable Long id_order) {
 		Order order = orderService.findById(id_order);
 		orderService.delivered(order);
-		mav.addObject("orders", orderService.findByStatus(OrderStatus.PENDING));
-		return mav;
+		return "redirect:/orders?status=0";
 	}
 }

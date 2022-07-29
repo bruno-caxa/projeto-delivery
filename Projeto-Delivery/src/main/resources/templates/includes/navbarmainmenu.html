@@ -64,7 +64,7 @@
 						</li>
 						
 						<li sec:authorize="isAuthenticated()">
-							<a href="/ordersPending" class="waves-effect waves-dark"> 
+							<a th:href="@{/orders(status=0)}" class="waves-effect waves-dark"> 
 								<span class="pcoded-micon">
 									<i class="ti-angle-right"></i>
 								</span> 
@@ -76,7 +76,7 @@
 						</li>
 						
 						<li sec:authorize="isAuthenticated()">
-							<a href="/ordersDelivered" class="waves-effect waves-dark"> 
+							<a th:href="@{/orders(status=1)}" class="waves-effect waves-dark"> 
 								<span class="pcoded-micon">
 									<i class="ti-angle-right"></i>
 								</span> 

@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <div th:include="includes/head.html"></div>
 
+<style type="text/css">
+ legend {
+ 	text-align:center;
+ 	font-size:20px;
+ }
+</style>
+
   <body>
  	
   <!-- Pre-loader start -->	
@@ -35,32 +42,89 @@
 										<div class="card">
 												<div class="card-block table-border-style">
 												<h4 class="sub-title">Selecione o alimento que você deseja editar</h4>
-												 <div class="table-responsive">
-													<div th:if="${foods.size > 0}">
-														<table class="table table-hover">
-															<thead>
-																<tr>
-																	<th></th>
-																	<th>Nome</th>
-																	<th>Valor</th>
-																	<th>Categoria</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr th:each = "food : ${foods}">
-																	<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${food.id})}" width="70px"/></td>
-																	<td><a data-toggle="modal" data-target="#foodModal" th:onclick="@{'editFood('+${food.id}+');'}" th:text="${food.name}" href="#"></a></td>
-																	<td th:text="${food.price}"></td>
-																	<td th:text="${food.category.name}"></td>
-																</tr>
-															</tbody>
-														</table>
-													 </div>
-													 <div th:unless="${foods.size > 0}">
-														 <span>Não há alimentos disponiveis</span>
-													 </div>  
-													  
-												 </div>
+
+												<div class="form-row">
+													<div class="col">
+														<div th:if="${esfihas.size > 0}">
+															<fieldset>
+   															<legend>Esfihas</legend>
+															<table class="table table-hover">
+																<thead>
+																	<tr>
+																		<th></th>
+																		<th>Nome</th>
+																		<th>Valor</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr th:each="esfiha : ${esfihas}">
+																		<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${esfiha.id})}" width="50px"/></td>
+																		<td><a data-toggle="modal" data-target="#foodModal" th:onclick="@{'editFood('+${esfiha.id}+');'}" th:text="${esfiha.name}" href="#"></a></td>
+																		<td th:text="${esfiha.price}"></td>
+																	</tr>
+																</tbody>
+															</table>
+															</fieldset>
+														</div>
+														<div th:unless="${esfihas.size > 0}">
+															<span>Não há esfihas disponiveis</span>
+														</div>
+													</div>
+
+													<div class="col">
+														<div th:if="${snacks.size > 0}">
+															<fieldset>
+   															<legend>Lanches</legend>
+															<table class="table table-hover">
+																<thead>
+																	<tr>
+																		<th></th>
+																		<th>Nome</th>
+																		<th>Valor</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr th:each="snack: ${snacks}">
+																		<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${snack.id})}" width="50px"/></td>
+																		<td><a data-toggle="modal" data-target="#foodModal" th:onclick="@{'editFood('+${snack.id}+');'}" th:text="${snack.name}" href="#"></a></td>
+																		<td th:text="${snack.price}"></td>
+																	</tr>
+																</tbody>
+															</table>
+															</fieldset>
+														</div>
+														<div th:unless="${snacks.size > 0}">
+															<span>Não há lanches disponiveis</span>
+														</div>
+													</div>
+
+													<div class="col">
+														<div th:if="${drinks.size > 0}">
+															<fieldset>
+   															<legend>Bebidas</legend>
+															<table class="table table-hover">
+																<thead>
+																	<tr>
+																		<th></th>
+																		<th>Nome</th>
+																		<th>Valor</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr th:each="drink : ${drinks}">
+																		<td width="20px"><img th:src="@{/showImage/{id_food}(id_food=${drink.id})}" width="50px"/></td>
+																		<td><a data-toggle="modal" data-target="#foodModal" th:onclick="@{'editFood('+${drink.id}+');'}" th:text="${drink.name}" href="#"></a></td>
+																		<td th:text="${drink.price}"></td>
+																	</tr>
+																</tbody>
+															</table>
+															</fieldset>
+														</div>
+														<div th:unless="${drinks.size > 0}">
+															<span>Não há bebidas disponiveis</span>
+														</div>
+													</div>
+												</div>
 												</div>
 										</div>
                                     <!-- Page-body end -->

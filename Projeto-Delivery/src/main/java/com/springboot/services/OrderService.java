@@ -1,13 +1,20 @@
 package com.springboot.services;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.Tuple;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.springboot.controllers.PageableUtil;
 import com.springboot.entities.FoodOrder;
 import com.springboot.entities.Order;
 import com.springboot.entities.OrderStatus;
@@ -26,6 +33,9 @@ public class OrderService {
 	@Autowired
 	private OrderRepository orderRepository;
 	
+	@Autowired
+	private PageableUtil<Order> pageableUtil;
+	
 	public void deleteById(Long id) {
 		orderRepository.deleteById(id);
 	}
@@ -38,28 +48,21 @@ public class OrderService {
 	public Order findById(Long id) {
 		return orderRepository.findById(id).get();
 	}
-
-	public List<Order> findByStatus(OrderStatus status) {
-		return orderRepository.findAll()
-							  .stream()
-							  .filter(o -> o.getStatus() == status)
-							  .collect(Collectors.toList());
-	}
 	
-	public List<Order> montlhyProfits(int month) {
-		List<Order> orders = new ArrayList<>();
-		Calendar calendar = Calendar.getInstance();
+	public Page<Order> findByStatus(Pageable pageable, OrderStatus status) {
+		List<Order> orders = orderRepository.findAll()
+											.stream()
+											.filter(o -> o.getStatus() == status)
+											.sorted(Comparator.comparing(Order::getDate))
+											.collect(Collectors.toList());;
 		
-		for(Order order : orderRepository.findAll()) {
-			calendar.setTime(order.getDate());
-			int monthAux = calendar.get(Calendar.MONTH);
-			
-			if(monthAux == month) {
-				orders.add(order);
-			}
-		}
-		
-		return orders;
+		return pageableUtil.pagination(pageable, orders);
+	}
+
+	public Map<Date, Double> montlhyProfits(String month) {
+		List<Tuple> orders = orderRepository.montlhyProfits(month);
+		return orders.stream().collect(Collectors.toMap(o -> o.get(0, Date.class),
+														o -> o.get(1, Double.class)));
 	}
 	
 	public void save(Order order) {
@@ -71,5 +74,9 @@ public class OrderService {
 		orderRepository.save(order);
 		cartService.emptyCart();
 	}
-
+	
+	public List<Integer> totalPages(Page<Order> page) {
+		return pageableUtil.totalPages(page);
+	}
+	
 }

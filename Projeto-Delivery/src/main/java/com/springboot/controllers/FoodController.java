@@ -1,12 +1,18 @@
 package com.springboot.controllers;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,11 +27,9 @@ public class FoodController {
 	private FoodService foodService;
 	
 	@GetMapping(value = "/deleteFood/{id_food}")
-	public ModelAndView deleteFood(@PathVariable Long id_food) {
-		ModelAndView mav = new ModelAndView("index");
+	public String deleteFood(@PathVariable Long id_food) {
 		foodService.deleteById(id_food);
-		mav.addObject("msg","Alimento deletado com sucesso!");
-		return mav;
+		return "redirect:/listFood";
 	}
 	
 	@GetMapping(value = "/getFood")
@@ -35,18 +39,23 @@ public class FoodController {
 	}
 	
 	@PostMapping(value = "/saveFood")
-	public ModelAndView saveFood(Food food, MultipartFile fileImage) {
-		ModelAndView mav = new ModelAndView("index");
+	public String saveFood(Food food, MultipartFile fileImage) {
 		foodService.save(food, fileImage);
-		mav.addObject("msg","Alimento salvo com sucesso!");
-		return mav;
+		return "redirect:/listFood";
 	}
 	
-	@PostMapping(value = "**/searchFood")
-	public ModelAndView searchFood(String foodSearch) {
+	@GetMapping(value = "/searchFood")
+	public ModelAndView searchFood(@RequestParam String food, @RequestParam Optional<Integer> page) {
 		ModelAndView mav = new ModelAndView("user/search");
-		mav.addObject("foodSearch", foodSearch);
-		mav.addObject("foods", foodService.search(foodSearch));
+		
+		int currentPage = page.orElse(1);
+		
+		Page<Food> foodPage = foodService.search(PageRequest.of(currentPage - 1, 5), food);
+		List<Integer> pageNumbers = foodService.totalPages(foodPage);
+		
+		mav.addObject("foodPage", foodPage);
+		mav.addObject("foodSearch", food);
+		mav.addObject("pageNumbers", pageNumbers);
 		return mav;
 	}
 	

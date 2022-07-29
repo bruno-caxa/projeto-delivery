@@ -35,9 +35,9 @@
 												<div class="card-block table-border-style">
 												 <div class="table-responsive">
 													
-													<div th:if="${orders.size > 0}">
+													<div th:if="${orderPage.content.size > 0}">
 													
-													  <div th:each="order : ${orders}">
+													  <div th:each="order : ${orderPage.content}">
 														<table class="table">
 															<thead>
 																<tr>
@@ -51,7 +51,7 @@
 																<tr>
 																	<td th:text="${order.address}"></td>
 																	<td th:text="${order.number}"></td>
-																	<td th:text="${#dates.format(order.date, 'dd/MM/yyyy HH:mm')}"></td>
+																	<td th:text="${#dates.format(order.date, 'dd/MM/yyyy')}"></td>
 																	<td>R$<span th:text="${order.totalValue}"></span></td>
 																</tr>
 															</tbody>
@@ -76,8 +76,18 @@
 															<a class="btn btn-sm btn-primary" th:href="@{/orderDelivered/{id_order}(id_order=${order.id})}">Pedido Entregue</a>
 															<br><br>
 													  </div>	
+													  
+													  <nav>
+									  					<ul class="pagination">
+										  				   <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+										  				   	<a class="page-link" th:href="@{/orders(page=${pageNumber},status=0)}" th:text="${pageNumber}"></a>
+										  				   </li>
+									  					</ul>
+													  </nav>
+													  
+													  
 													 </div>
-													 <div th:unless="${orders.size > 0}">
+													 <div th:unless="${orderPage.content.size > 0}">
 														 <span>Não há pedidos pendentes disponiveis no momento!</span>
 													 </div>  
 												 </div>
